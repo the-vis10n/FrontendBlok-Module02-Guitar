@@ -2,7 +2,6 @@
 @import 'fonts';
 
 body {
-    max-width: 1920px;
     font-family: $font;
     font-weight: 400;
     margin: 0;
@@ -19,7 +18,7 @@ a {
     text-decoration: none;
 }
 
-.title-h2 {
+h2{
     font-weight: 700;
     font-size: 32px;
     letter-spacing: 0.05em;
@@ -28,6 +27,12 @@ a {
     margin-top: 0;
     margin-bottom: 30px;
     line-height: 110%;
+    @media (max-width: $r_tab - 20px){
+        font-size: clamp(1.125rem, 4vw, 1.625rem);
+    }
+}
+ul{
+    list-style-type:  none;
 }
 
 .header {
@@ -500,7 +505,6 @@ a {
        padding:  15px 15px 30px 15px;
        margin-bottom: 12px; 
     }
-
     &__title {
         width: 100%;
         max-width: 630px;
@@ -559,11 +563,14 @@ a {
     }
 }
 .tag {
+    @media (hover: hover) {
+       animation-play-state: paused;
+    }
+    &__list {
+    margin-top: 150px;
+    margin-bottom: 150px; 
     display: flex;
     gap: 64px;
-    margin-top: 150px;
-    margin-bottom: 150px;
-    animation: move-left 20s infinite linear alternate;
     @media (max-width: $r_desk) {
         margin-top: 100px;
         margin-bottom: 100px;
@@ -571,20 +578,15 @@ a {
     @media (max-width: $r_tab){
         margin-top: 80px;
         margin-bottom: 80px;
-    }
-    @media (hover: hover){
-        &:hover{
-            animation-play-state: paused;
-        }
-    }
+    }  
     @media (max-width: $r_tab - 20px) {
         display: none;
-     }
-    &__text {
+     }     
+    &_text {
+        display: block;
         border: 1px solid $light;
         border-radius: $br-max;
         padding: 10px 20px;
-        margin: 0;
         font-weight: 200;
         font-size: 24px;
         color: $gray;
@@ -602,13 +604,7 @@ a {
         }
     }
 }
-@keyframes move-left {
-    0% {transform: translate(100%, 0);
-}   
-    100% {transform: translate(-100%, 0);
 }
-}
-
 .course {
     display: flex;
     gap: 70px;
@@ -947,6 +943,7 @@ a {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 30px;
+        padding: 0;
         @media (max-width:$r_desk_full){
             grid-template-columns: repeat(2, 1fr);
         }
@@ -959,6 +956,7 @@ a {
         }
     }
     &__item {
+        display: block;
         border-radius: $br-max;
         padding: 30px;
         background-color: $light;
@@ -979,6 +977,7 @@ a {
         }
     }
     &__text {
+        margin-bottom: 0;
         @media (max-width: $r_mobail_600){
             margin-top: 12px;
          }
@@ -1043,6 +1042,7 @@ a {
         grid-template-columns: repeat(4, 23.5%);
         position: relative;
         gap: 30px;
+        padding: 0;
         @media (max-width: $r_tab) {
             gap: 20px;
         }
@@ -1052,6 +1052,7 @@ a {
         }
     }
     &__item {
+        display: block;
         background-color: $light;
         padding: 30px;
         border-radius: $br-min;
@@ -1130,127 +1131,130 @@ a {
             margin-bottom: 20px;
         }
     }
-    &__link {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 30px;
-        background-color: transparent;
-        color: $light;
-        font-weight: 400;
-        font-size: 32px;
-        line-height: 150%;
-        position: relative;
-        z-index: 0;
-        transition: $tr;
-        @media (max-width:$r_desk_full){
-            font-size: 20px;
-        }
-        @media (max-width:$r_tab - 20px){
-            font-size: clamp(0.875rem, 2vw + 0.25rem, 1.25rem);
-            padding: 9px 0px 0px 0px;
-        }
-        &:not(:last-child) {
-            border-bottom: 1px solid $accent;
-            margin-bottom: 30px;
-            @media (max-width:$r_tab - 20px){
-                margin-bottom: 16px;
+    &__list{
+        padding: 0;
+        &__item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px;
+            background-color: transparent;
+            color: $light;
+            font-weight: 400;
+            font-size: 32px;
+            line-height: 150%;
+            position: relative;
+            z-index: 0;
+            transition: $tr;
+            @media (max-width:$r_desk_full){
+                font-size: clamp(1.25rem, 2vw - 0.05rem, 1.875rem);
             }
-        }
-        &::before {
+            @media (max-width:$r_tab - 20px){
+                font-size: clamp(0.875rem, 2vw + 0.25rem, 1.25rem);
+                padding: 9px 0px 0px 0px;
+            }
+            &:not(:last-child) {
+                border-bottom: 1px solid $accent;
+                margin-bottom: 30px;
+                @media (max-width:$r_tab - 20px){
+                    margin-bottom: 16px;
+                }
+            }
+            &::before {
+                content: '';
+                display: block;
+                background-repeat: no-repeat;
+                background-size: contain;
+                position: absolute;
+                transition: $tr;
+                opacity: 0;
+                z-index: 2;
+                transform: scale(0);
+            }
+            @media (hover: hover){
+                &:hover {
+                    background-color: $accent;
+                    border-radius: 10px;
+                    &::after {
+                        transform: rotate(45deg);
+                        }
+                    &::before{
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                    }
+            }
+            &::after {
             content: '';
             display: block;
+            width: 48px;
+            height: 48px;
+            background-image: url(../images/ui/Arrow_areas.svg);
             background-repeat: no-repeat;
             background-size: contain;
-            position: absolute;
             transition: $tr;
-            opacity: 0;
-            z-index: 2;
-            transform: scale(0);
-        }
-        @media (hover: hover){
-            &:hover {
-                background-color: $accent;
-                border-radius: 10px;
-                &::after {
-                    transform: rotate(45deg);
+            }    
+            &._acoustic {
+                &::before {
+                    width:clamp(200px, 37vw, 567.5px);
+                    height: 364.5px;
+                    background-image: url(../images/areas/acoustic_guitar.png);
+                    top: calc(50% - 220px);
+                    left: 50vw;
+                    @media (max-width:$r_desk_wxga){
+                        top: calc(50% - 140px);
                     }
-                &::before{
-                    opacity: 1;
-                    transform: scale(1);
+                    @media (max-width:$r_tab){
+                        display: none;
+                    }
                 }
+            }
+            &._drums {
+                &::before {
+                    width:clamp(200px, 27vw, 437px);
+                    height: 474px;
+                    background-image: url(../images/areas/drums.png);
+                    top: calc(50% - 240px);
+                    left: 40vw;
+                    @media (max-width:$r_desk_wxga){
+                        top: calc(50% - 180px);
+                    }
+                    @media (max-width:$r_tab){
+                        display: none;
+                    }
                 }
-        }
-        &::after {
-        content: '';
-        display: block;
-        width: 48px;
-        height: 48px;
-        background-image: url(../images/ui/Arrow_areas.svg);
-        background-repeat: no-repeat;
-        background-size: contain;
-        transition: $tr;
-        }    
-        &._acoustic {
-            &::before {
-                width:clamp(200px, 37vw, 567.5px);
-                height: 364.5px;
-                background-image: url(../images/areas/acoustic_guitar.png);
-                top: calc(50% - 220px);
-                left: 50vw;
-                @media (max-width:$r_desk_wxga){
-                    top: calc(50% - 140px);
+            }
+            &._violin {
+                &::before {
+                    width:clamp(200px, 27vw, 568px);
+                    height: 497px;
+                    background-image: url(../images/areas/violin.png);
+                    top: calc(50% - 250px);
+                    left: 45vw;
+                    @media (max-width: $r_desk_wxga){
+                        top: calc(50% - 120px);
                 }
                 @media (max-width:$r_tab){
                     display: none;
                 }
+                }
             }
-        }
-        &._drums {
-            &::before {
-                width:clamp(200px, 27vw, 437px);
-                height: 474px;
-                background-image: url(../images/areas/drums.png);
-                top: calc(50% - 240px);
-                left: 40vw;
-                @media (max-width:$r_desk_wxga){
+            &._bass {
+                &::before {
+                    width: clamp(200px, 27vw, 568px);
+                    height: 439px;
+                    background-image: url(../images/areas/bass_guitar.png);
                     top: calc(50% - 180px);
+                    left: 55vw; 
+                    @media (max-width: $r_desk_full){
+                        top: calc(50% - 140px);
+                    }  
+                    @media (max-width:$r_tab){
+                        display: none;
+                    }             
+                        }
                 }
-                @media (max-width:$r_tab){
-                    display: none;
-                }
-            }
-        }
-        &._violin {
-            &::before {
-                width:clamp(200px, 27vw, 568px);
-                height: 497px;
-                background-image: url(../images/areas/violin.png);
-                top: calc(50% - 250px);
-                left: 45vw;
-                @media (max-width: $r_desk_wxga){
-                    top: calc(50% - 120px);
-            }
-            @media (max-width:$r_tab){
-                display: none;
-            }
-            }
-        }
-        &._bass {
-            &::before {
-                width: clamp(200px, 27vw, 568px);
-                height: 439px;
-                background-image: url(../images/areas/bass_guitar.png);
-                top: calc(50% - 180px);
-                left: 55vw; 
-                @media (max-width: $r_desk_full){
-                    top: calc(50% - 140px);
-                }  
-                @media (max-width:$r_tab){
-                    display: none;
-                }             
-                    }
-            }
+           }   
         }
     }
 .footer {
@@ -1327,6 +1331,7 @@ a {
     display: flex;
     justify-content: end;
     gap: 11.24px;
+    padding: 0;
     @media (max-width: $r_mobail_600){
         justify-content: start;
         margin-bottom: 27px;
